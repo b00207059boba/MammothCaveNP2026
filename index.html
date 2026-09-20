@@ -1,444 +1,386 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🦇 2026 猛瑪洞重聚地底大冒險手冊 🔦</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            cave: {
-              50: '#f8f6f0',
-              100: '#ede8d8',
-              500: '#8c6d46',
-              800: '#3a2b1b',
-              900: '#21180e',
-            },
-            day1: '#e63946',
-            day2: '#2a9d8f',
-            day3: '#e76f51'
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 洞穴探險 ✕ 音樂之都 🦇 重聚之旅 🎸</title>
+    <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --accent: #d35400;
+            --day1: #3498db;
+            --day2: #2ecc71;
+            --day3: #9b59b6;
+            --border: #eeeeee;
         }
-      }
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
-    body {
-      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .sketch-border {
-      border-style: solid;
-      border-width: 2px;
-      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-    }
-  </style>
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --card-bg: #1e1e1e;
+                --text-main: #f5f5f5;
+                --text-muted: #aaaaaa;
+                --accent: #ff7b25;
+                --border: #333333;
+            }
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+        
+        header { text-align: center; margin: 20px 0; }
+        header h1 { font-size: 1.8rem; margin: 0 0 10px 0; }
+        header p { color: var(--text-muted); margin: 0; font-size: 1rem; }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        /* 倒數計時 */
+        .countdown-title { text-align: center; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px; }
+        .countdown-timer { 
+            display: flex; justify-content: center; gap: 15px; 
+            font-size: 1.8rem; font-weight: bold; color: var(--accent); 
+        }
+        .time-unit { display: flex; flex-direction: column; align-items: center; }
+        .time-label { font-size: 0.7rem; color: var(--text-muted); font-weight: normal; }
+
+        /* SVG 地圖 */
+        .map-container { text-align: center; margin: 15px 0; background: #fffdf5; border-radius: 8px; padding: 10px; border: 1px solid #e0d8c3; }
+        @media (prefers-color-scheme: dark) { .map-container { background: #2a2a2a; border-color: #444; } }
+        .map-legend { display: flex; justify-content: center; gap: 10px; font-size: 0.8rem; margin-top: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        /* 資訊區塊 */
+        h2 { font-size: 1.2rem; border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 0; }
+        .info-grid { display: grid; grid-template-columns: 1fr; gap: 10px; font-size: 0.9rem; }
+        .info-item strong { display: block; color: var(--accent); }
+
+        /* 行程表 */
+        .day-header { 
+            display: flex; justify-content: space-between; align-items: center;
+            background-color: var(--border); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; 
+        }
+        .nav-btn {
+            background-color: var(--accent); color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: normal;
+        }
+        .timeline { position: relative; margin-left: 10px; padding-left: 15px; border-left: 2px solid var(--border); }
+        .event { margin-bottom: 20px; position: relative; }
+        .event::before {
+            content: ""; position: absolute; left: -21px; top: 5px;
+            width: 10px; height: 10px; background-color: var(--accent); border-radius: 50%;
+        }
+        .time { font-weight: bold; font-size: 0.9rem; color: var(--accent); margin-bottom: 2px; }
+        .content { font-size: 0.95rem; }
+        .highlight { background-color: rgba(211, 84, 0, 0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; color: var(--accent); font-weight: bold; margin-left: 5px; }
+        
+        .desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; background: rgba(0,0,0,0.03); padding: 8px; border-radius: 6px; border-left: 3px solid var(--accent); }
+        @media (prefers-color-scheme: dark) { .desc { background: rgba(255,255,255,0.05); } }
+        
+        .map-link { color: var(--accent); text-decoration: none; font-weight: bold; }
+        .map-link:hover { text-decoration: underline; }
+
+        /* 列表 */
+        ul { padding-left: 20px; margin: 0; font-size: 0.95rem; }
+        li { margin-bottom: 8px; }
+
+    </style>
 </head>
-<body class="bg-stone-100 dark:bg-stone-900 text-stone-800 dark:text-stone-100 min-h-screen pb-12 transition-colors duration-300">
+<body>
 
-  <div class="max-w-md mx-auto px-4 pt-6 space-y-6">
-
-    <!-- 主標題卡片：重聚主題與行程特色 -->
-    <div class="bg-gradient-to-br from-amber-600 via-amber-700 to-stone-800 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden text-center">
-      <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl font-black select-none">🦇</div>
-      <div class="inline-block bg-amber-400/20 backdrop-blur-md text-amber-200 text-xs font-bold px-3 py-1 rounded-full mb-2 tracking-widest border border-amber-300/30 uppercase">
-        2026.09.25 — 09.27 • 3人同遊
-      </div>
-      <h1 class="text-2xl font-black tracking-tight mb-2 leading-tight drop-shadow">
-        🦇 猛瑪洞地底大冒險<br>
-        <span class="text-amber-300 text-xl">✨ 2026 好友重聚探險手冊 ✨</span>
-      </h1>
-      <p class="text-xs text-amber-100/90 max-w-xs mx-auto font-medium">
-        油燈探索 • 地底暗河船遊 • 納什維爾音樂經典 3 日小旅行 🔦🛶🎸
-      </p>
-    </div>
-
-    <!-- 頂部「此刻關注」與大倒數計時 -->
-    <header class="bg-white dark:bg-stone-800 rounded-3xl p-6 shadow-xl border border-stone-200 dark:border-stone-700 relative overflow-hidden">
-      <div class="flex justify-between items-center mb-3">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-          此刻關注
-        </span>
-        <span class="text-xs text-stone-600 dark:text-stone-400 font-semibold" id="tz-badge">時區: Central Time (CDT)</span>
-      </div>
-
-      <div id="next-event-title" class="text-xl font-extrabold mb-1 text-stone-900 dark:text-white">載入行程中...</div>
-      <div id="next-event-sub" class="text-xs text-stone-600 dark:text-stone-400 mb-4">--</div>
-
-      <!-- 倒數計時區 -->
-      <div class="bg-stone-50 dark:bg-stone-900/60 rounded-2xl p-4 border border-stone-100 dark:border-stone-800">
-        <div class="text-xs font-semibold text-stone-600 dark:text-stone-400 mb-2">距離出發倒數 (CDT)</div>
-        <div class="grid grid-cols-4 gap-2 text-center" id="countdown-timer">
-          <div class="bg-white dark:bg-stone-800 rounded-xl p-2 shadow-sm border border-stone-200 dark:border-stone-700">
-            <div class="text-2xl font-black text-amber-600 dark:text-amber-400" id="cd-days">00</div>
-            <div class="text-[10px] text-stone-600 dark:text-stone-400 uppercase font-bold">Days</div>
-          </div>
-          <div class="bg-white dark:bg-stone-800 rounded-xl p-2 shadow-sm border border-stone-200 dark:border-stone-700">
-            <div class="text-2xl font-black text-amber-600 dark:text-amber-400" id="cd-hours">00</div>
-            <div class="text-[10px] text-stone-600 dark:text-stone-400 uppercase font-bold">Hours</div>
-          </div>
-          <div class="bg-white dark:bg-stone-800 rounded-xl p-2 shadow-sm border border-stone-200 dark:border-stone-700">
-            <div class="text-2xl font-black text-amber-600 dark:text-amber-400" id="cd-mins">00</div>
-            <div class="text-[10px] text-stone-600 dark:text-stone-400 uppercase font-bold">Mins</div>
-          </div>
-          <div class="bg-white dark:bg-stone-800 rounded-xl p-2 shadow-sm border border-stone-200 dark:border-stone-700">
-            <div class="text-2xl font-black text-amber-600 dark:text-amber-400" id="cd-secs">00</div>
-            <div class="text-[10px] text-stone-600 dark:text-stone-400 uppercase font-bold">Secs</div>
-          </div>
-        </div>
-      </div>
+<div class="container">
+    <header>
+        <h1>2026 洞穴探險 ✕ 音樂之都 🦇🎸</h1>
+        <p>好友重聚之旅 ｜ 3人行 ｜ 9/25 - 9/27</p>
     </header>
 
-    <!-- 行程總覽手繪感 SVG 地圖與一鍵導航 -->
-    <section class="bg-white dark:bg-stone-800 rounded-3xl p-5 shadow-lg border border-stone-200 dark:border-stone-700">
-      <div class="flex justify-between items-center mb-3">
-        <h2 class="text-lg font-extrabold flex items-center gap-2">
-          <span>🗺️</span> 總覽路線與住宿
-        </h2>
-        <a href="https://www.google.com/maps/dir/Nashville+International+Airport,+1+Terminal+Dr,+Nashville,+TN+37214/Hampton+Inn+Cave+City,+1011+Doyle+Ave,+Cave+City,+KY+42127/Mammoth+Cave+Visitor+Center,+Mammoth+Cave+Pkwy,+Mammoth+Cave,+KY/Lost+River+Cave,+2818+Nashville+Rd,+Bowling+Green,+KY+42101/Country+Music+Hall+of+Fame+and+Museum,+222+Rep.+John+Lewis+Way+S,+Nashville,+TN+37203" 
-           target="_blank" 
-           class="text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold py-1.5 px-3 rounded-full transition shadow-sm inline-flex items-center gap-1">
-          <span>🚀</span> 全程 Google 導航
-        </a>
-      </div>
-
-      <!-- SVG 手繪風格示意圖 -->
-      <div class="relative bg-amber-50/50 dark:bg-stone-900/80 rounded-2xl p-4 border-2 border-stone-300 dark:border-stone-700 sketch-border overflow-hidden">
-        <svg viewBox="0 0 320 200" class="w-full h-auto drop-shadow-sm">
-          <path d="M 10 10 Q 160 30 310 10" stroke="#d6d3d1" stroke-width="1" stroke-dasharray="4 4" fill="none" />
-          
-          <!-- D1 路線: BNA -> Cave City (Red) -->
-          <path d="M 60 160 C 80 120, 120 70, 200 60" stroke="#e63946" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 6" fill="none" />
-          
-          <!-- D2 路線: Cave City <-> Mammoth Cave (Teal) -->
-          <path d="M 200 60 Q 230 40 250 50 Q 220 70 200 60" stroke="#2a9d8f" stroke-width="4" stroke-linecap="round" fill="none" />
-          
-          <!-- D3 路線: Cave City -> Lost River -> Nashville (Orange) -->
-          <path d="M 200 60 L 160 100 L 60 160" stroke="#e76f51" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 4" fill="none" />
-
-          <!-- 地點標記點 -->
-          <g transform="translate(60, 160)">
-            <circle r="8" fill="#e63946" />
-            <text x="-25" y="20" font-size="10" font-weight="bold" fill="currentColor" class="text-stone-700 dark:text-stone-300">BNA 機場</text>
-          </g>
-
-          <g transform="translate(200, 60)">
-            <circle r="10" fill="#2a9d8f" />
-            <text x="12" y="4" font-size="10" font-weight="bold" fill="currentColor" class="text-stone-900 dark:text-white">🏨 Cave City (與廷會合/兩晚住宿)</text>
-          </g>
-
-          <g transform="translate(250, 50)">
-            <circle r="7" fill="#2a9d8f" />
-            <text x="-20" y="-10" font-size="10" font-weight="bold" fill="currentColor" class="text-stone-800 dark:text-stone-200">🦇 猛瑪洞國家公園</text>
-          </g>
-
-          <g transform="translate(160, 100)">
-            <circle r="7" fill="#e76f51" />
-            <text x="-40" y="-10" font-size="10" font-weight="bold" fill="currentColor" class="text-stone-800 dark:text-stone-200">🛶 Lost River Cave</text>
-          </g>
-        </svg>
-
-        <div class="flex justify-around text-[11px] font-bold mt-2 pt-2 border-t border-stone-200 dark:border-stone-800">
-          <span class="text-day1 flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-day1 inline-block"></span>Day 1 抵達與開車</span>
-          <span class="text-day2 flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-day2 inline-block"></span>Day 2 猛瑪洞雙導覽</span>
-          <span class="text-day3 flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-day3 inline-block"></span>Day 3 船遊與Nashville</span>
+    <!-- 倒數計時 -->
+    <div class="card">
+        <div class="countdown-title">距離出發前往納什維爾 (CDT 時間)</div>
+        <div class="countdown-timer" id="timer">
+            <div class="time-unit"><span id="d">--</span><span class="time-label">天</span></div>
+            <div class="time-unit"><span id="h">--</span><span class="time-label">時</span></div>
+            <div class="time-unit"><span id="m">--</span><span class="time-label">分</span></div>
+            <div class="time-unit"><span id="s">--</span><span class="time-label">秒</span></div>
         </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- 已確認交通與飯店卡片 -->
-    <section class="space-y-3">
-      <h2 class="text-base font-extrabold text-stone-700 dark:text-stone-300 px-1">📌 已確認預訂 (機票/住宿/租車)</h2>
-      
-      <!-- 航班與租車 -->
-      <div class="bg-white dark:bg-stone-800 rounded-2xl p-4 shadow border border-stone-200 dark:border-stone-700 space-y-3">
-        <div class="flex justify-between items-start border-b border-stone-100 dark:border-stone-700 pb-2">
-          <div>
-            <span class="text-xs font-bold text-amber-600 dark:text-amber-400">Southwest Airlines</span>
-            <h3 class="font-bold text-sm">往返航班資訊</h3>
-          </div>
-          <span class="text-xs bg-stone-100 dark:bg-stone-700 px-2 py-0.5 rounded font-mono">2人搭乘</span>
+    <!-- 總覽地圖 -->
+    <div class="card">
+        <h2>🗺️ 行程總覽路線</h2>
+        <div class="map-container">
+            <svg viewBox="0 0 300 200" width="100%" height="200">
+                <!-- 路線 -->
+                <path d="M 150 160 Q 140 100 130 80" fill="none" stroke="var(--day1)" stroke-width="3" stroke-dasharray="5,5" />
+                <path d="M 130 80 Q 150 30 180 40 Q 150 60 130 80" fill="none" stroke="var(--day2)" stroke-width="3" />
+                <path d="M 130 80 Q 90 120 100 130 Q 120 140 150 160" fill="none" stroke="var(--day3)" stroke-width="3" />
+                <!-- 節點 -->
+                <circle cx="150" cy="160" r="6" fill="#e74c3c" />
+                <text x="160" y="165" font-size="12" fill="var(--text-main)" font-weight="bold">BNA (Nashville)</text>
+                
+                <circle cx="130" cy="80" r="8" fill="#f1c40f" stroke="#333" stroke-width="2"/>
+                <text x="35" y="85" font-size="12" fill="var(--text-main)" font-weight="bold">Hampton Inn</text>
+                
+                <circle cx="180" cy="40" r="6" fill="#2ecc71" />
+                <text x="190" y="45" font-size="12" fill="var(--text-main)" font-weight="bold">Mammoth Cave</text>
+                
+                <circle cx="100" cy="130" r="6" fill="#9b59b6" />
+                <text x="10" y="135" font-size="12" fill="var(--text-main)" font-weight="bold">Lost River Cave</text>
+            </svg>
         </div>
-        <div class="text-xs space-y-1.5 text-stone-600 dark:text-stone-300">
-          <div class="flex justify-between">
-            <span>去程 (9/25): WN1249</span>
-            <span class="font-semibold text-stone-900 dark:text-white">17:20 DAL ✈️ 19:10 BNA</span>
-          </div>
-          <div class="flex justify-between">
-            <span>回程 (9/27): WN1279</span>
-            <span class="font-semibold text-stone-900 dark:text-white">19:15 BNA ✈️ 21:10 DAL</span>
-          </div>
+        <div class="map-legend">
+            <div class="legend-item"><div class="dot" style="background:var(--day1)"></div>Day 1</div>
+            <div class="legend-item"><div class="dot" style="background:var(--day2)"></div>Day 2</div>
+            <div class="legend-item"><div class="dot" style="background:var(--day3)"></div>Day 3</div>
+            <div class="legend-item"><div class="dot" style="background:#f1c40f"></div>每晚住宿</div>
         </div>
-      </div>
+    </div>
 
-      <!-- 飯店 (重聚地點) -->
-      <a href="https://www.google.com/maps/search/?api=1&query=Hampton+Inn+Cave+City+1011+Doyle+Ave+Cave+City+KY+42127" 
-         target="_blank" 
-         class="block bg-white dark:bg-stone-800 rounded-2xl p-4 shadow border border-stone-200 dark:border-stone-700 hover:border-amber-500 transition">
-        <div class="flex justify-between items-start mb-2">
-          <div>
-            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">連續住宿 2 晚 • 🤝 夥伴會合點</span>
-            <h3 class="font-bold text-sm text-stone-900 dark:text-white">Hampton Inn Cave City 📍</h3>
-          </div>
-          <span class="text-xs bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200 font-bold px-2 py-0.5 rounded">含早餐</span>
+    <!-- 預訂資訊 -->
+    <div class="card">
+        <h2>✅ 已確認訂單</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <strong>✈️ 航班 (Southwest)</strong>
+                去程：9/25 WN1249 | 17:20 DAL - 19:10 BNA<br>
+                回程：9/27 WN1279 | 19:15 BNA - 21:10 DAL
+            </div>
+            <div class="info-item">
+                <strong>🏨 住宿 (9/25-9/27, 2晚)</strong>
+                <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Hampton+Inn+Cave+City" target="_blank">Hampton Inn Cave City</a><br>
+                含早餐
+            </div>
+            <div class="info-item">
+                <strong>🎟️ 猛獁洞門票 (9/26, 3人)</strong>
+                11:15 AM - Great Onyx Lantern Tour<br>
+                4:00 PM - Extended Historic Tour
+            </div>
+            <div class="info-item">
+                <strong>🛶 地下遊船門票 (9/27, 2人)</strong>
+                10:00 AM - Lost River Cave Boat Tour
+            </div>
         </div>
-        <p class="text-xs text-stone-600 dark:text-stone-400 mb-1">1011 Doyle Ave, Cave City, KY 42127</p>
-        <p class="text-[11px] text-stone-600 dark:text-stone-400">📞 +1 270-773-8444（與廷在飯店會合吃晚餐/入住）</p>
-      </a>
-    </section>
+    </div>
 
-    <!-- 逐日行程 -->
-    <section class="space-y-4">
-      <h2 class="text-base font-extrabold text-stone-700 dark:text-stone-300 px-1">🗓️ 逐日詳細行程</h2>
-
-      <!-- DAY 1 -->
-      <div class="bg-white dark:bg-stone-800 rounded-3xl p-5 shadow-lg border border-stone-200 dark:border-stone-700">
-        <div class="flex justify-between items-center mb-4 pb-2 border-b border-stone-100 dark:border-stone-700">
-          <div>
-            <span class="text-xs font-black text-day1 uppercase tracking-wider">Day 1</span>
-            <h3 class="text-lg font-extrabold">9/25 (五) 抵達、夜行與 Hampton Inn 會合</h3>
-          </div>
-          <a href="https://www.google.com/maps/dir/Nashville+International+Airport/Hampton+Inn+Cave+City" target="_blank" class="text-xs bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 px-2.5 py-1 rounded-full font-bold">🗺️ D1 導航</a>
+    <!-- Day 1 -->
+    <div class="card">
+        <div class="day-header">
+            <span>Day 1: 9/25 (五) 啟程</span>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/Nashville+International+Airport/Hampton+Inn+Cave+City" target="_blank">導航本日路線</a>
         </div>
-
-        <div class="relative border-l-2 border-day1/30 pl-4 space-y-4 text-xs">
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day1"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">17:20 - 19:10</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">✈️ Southwest 航班飛抵 Nashville (BNA)</div>
-          </div>
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day1"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">19:10 - 19:50</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🚗 領取租車，準備開車出發</div>
-          </div>
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day1"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">19:50 - 21:20</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🚗 開車直奔 Cave City 飯店 (約 1.5 小時)</div>
-          </div>
-          <div class="relative bg-amber-50 dark:bg-amber-950/40 p-3 rounded-xl border border-amber-200 dark:border-amber-800">
-            <div class="absolute -left-[21px] top-3 w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-            <div class="font-mono text-amber-800 dark:text-amber-300 font-bold">21:20+ 🤝 夥伴重聚會合</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🏨 抵達 Hampton Inn Cave City 與廷會合</div>
-            <p class="text-[11px] text-stone-600 dark:text-stone-400 mt-1">辦理入住、享用晚餐，討論明日地底冒險準備休息！</p>
-          </div>
+        <div class="timeline">
+            <div class="event">
+                <div class="time">17:20 - 19:10</div>
+                <div class="content">✈️ 搭機前往 Nashville <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Nashville+International+Airport" target="_blank">(BNA 機場)</a></div>
+            </div>
+            <div class="event">
+                <div class="time">19:10 - 19:50</div>
+                <div class="content">🚗 抵達 BNA，領取租車</div>
+            </div>
+            <div class="event">
+                <div class="time">19:50 - 21:00</div>
+                <div class="content">🍽️ 晚餐 (Nashville 區域或公路沿途待查)</div>
+            </div>
+            <div class="event">
+                <div class="time">21:00 - 22:30</div>
+                <div class="content">🚗 開車北上前往 Cave City (車程約 1.5 小時)</div>
+            </div>
+            <div class="event">
+                <div class="time">22:30</div>
+                <div class="content">
+                    🏨 抵達 <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Hampton+Inn+Cave+City" target="_blank">Hampton Inn Cave City</a> 辦理入住<br>
+                    🎉 <strong>與夥伴「廷」會合！</strong>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <!-- DAY 2 -->
-      <div class="bg-white dark:bg-stone-800 rounded-3xl p-5 shadow-lg border border-stone-200 dark:border-stone-700">
-        <div class="flex justify-between items-center mb-4 pb-2 border-b border-stone-100 dark:border-stone-700">
-          <div>
-            <span class="text-xs font-black text-day2 uppercase tracking-wider">Day 2</span>
-            <h3 class="text-lg font-extrabold">9/26 (六) 猛瑪洞雙導覽與地表探索</h3>
-          </div>
-          <a href="https://www.google.com/maps/dir/Hampton+Inn+Cave+City/Mammoth+Cave+Visitor+Center" target="_blank" class="text-xs bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 px-2.5 py-1 rounded-full font-bold">🗺️ D2 導航</a>
+    <!-- Day 2 -->
+    <div class="card">
+        <div class="day-header">
+            <span>Day 2: 9/26 (六) 探秘猛獁洞</span>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/Hampton+Inn+Cave+City/Mammoth+Cave+Visitor+Center/Hampton+Inn+Cave+City" target="_blank">導航本日路線</a>
         </div>
-
-        <div class="relative border-l-2 border-day2/30 pl-4 space-y-4 text-xs">
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day2"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">08:00 - 09:30</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🥣 飯店免費早餐 & 準備出門</div>
-          </div>
-
-          <!-- 導覽 1 -->
-          <div class="relative bg-amber-50 dark:bg-amber-950/40 p-3 rounded-xl border border-amber-200 dark:border-amber-800">
-            <div class="absolute -left-[21px] top-3 w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-            <span class="inline-block bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mb-1">已預訂 3人門票</span>
-            <div class="font-mono text-amber-800 dark:text-amber-300 font-bold">10:45 AM 前抵達 (最晚提前30分報到)</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🔦 11:15 AM - 1:30 PM: Great Onyx Lantern Tour</div>
-            <p class="text-[11px] text-stone-600 dark:text-stone-400 mt-1">提氣油燈探險，需出示帶照片證件。禁止攜帶背包與自拍棒。</p>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day2"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">13:30 - 15:30</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🥪 午餐 & 地表步道探索</div>
-            <p class="text-stone-600 dark:text-stone-400 mt-0.5">推薦 Cedar Sink Trail（喀斯特地貌陷穴）或 Green River Bluffs Trail（俯瞰河谷）。</p>
-          </div>
-
-          <!-- 導覽 2 -->
-          <div class="relative bg-amber-50 dark:bg-amber-950/40 p-3 rounded-xl border border-amber-200 dark:border-amber-800">
-            <div class="absolute -left-[21px] top-3 w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-            <span class="inline-block bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mb-1">已預訂 3人門票</span>
-            <div class="font-mono text-amber-800 dark:text-amber-300 font-bold">15:30 PM 報到 (Shelter A 集合)</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🥾 16:00 PM - 18:15 PM: Extended Historic Tour</div>
-            <p class="text-[11px] text-stone-600 dark:text-stone-400 mt-1">經典歷史路線，涵蓋地底陡峭台階與歷史通道。</p>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day2"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">18:30 - 20:00</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🍽️ Cave City 吃晚餐</div>
-          </div>
+        <div class="timeline">
+            <div class="event">
+                <div class="time">08:00 - 09:00</div>
+                <div class="content">🥣 飯店享用早餐</div>
+            </div>
+            <div class="event">
+                <div class="time">09:30 - 10:30</div>
+                <div class="content">🚗 前往 <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Mammoth+Cave+Visitor+Center" target="_blank">遊客中心</a> <span class="highlight">需提早30分報到</span></div>
+            </div>
+            <div class="event">
+                <div class="time">11:15 - 13:30</div>
+                <div class="content">
+                    🔦 Great Onyx Lantern Tour <span class="highlight">已預訂 3人</span>
+                    <div class="desc">🌟 <strong>必看特色：</strong> 手提傳統煤油燈探索未經現代化改造的洞穴，回到 19 世紀的原始探險氛圍，可見美麗的石膏結晶。</div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="time">13:30 - 15:30</div>
+                <div class="content">
+                    🥪 午餐 & 公園地表步道 (推薦 Cedar Sink Trail)
+                    <div class="desc">🌟 <strong>步道特色：</strong> Cedar Sink 是極佳的輕度步道，能觀賞到巨大的地表陷穴與地下河短暫露頭的喀斯特奇觀。</div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="time">15:30 - 16:00</div>
+                <div class="content">📍 遊客中心後方 Shelter A 集合 <span class="highlight">需提早30分</span></div>
+            </div>
+            <div class="event">
+                <div class="time">16:00 - 18:15</div>
+                <div class="content">
+                    🥾 Extended Historic Tour <span class="highlight">已預訂 3人</span>
+                    <div class="desc">🌟 <strong>必看特色：</strong> 深入洞穴歷史核心，穿越陡峭階梯與狹窄通道（Fat Man's Misery），體能挑戰與壯麗景觀並存的經典路線。</div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="time">18:30 - 20:00</div>
+                <div class="content">🍽️ Cave City 晚餐 (待查)</div>
+            </div>
+            <div class="event">
+                <div class="time">20:00</div>
+                <div class="content">🏨 返回飯店休息</div>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <!-- DAY 3 -->
-      <div class="bg-white dark:bg-stone-800 rounded-3xl p-5 shadow-lg border border-stone-200 dark:border-stone-700">
-        <div class="flex justify-between items-center mb-4 pb-2 border-b border-stone-100 dark:border-stone-700">
-          <div>
-            <span class="text-xs font-black text-day3 uppercase tracking-wider">Day 3</span>
-            <h3 class="text-lg font-extrabold">9/27 (日) 地底船遊與 Nashville 音樂巡禮</h3>
-          </div>
-          <a href="https://www.google.com/maps/dir/Hampton+Inn+Cave+City/Lost+River+Cave/Country+Music+Hall+of+Fame+and+Museum/Nashville+International+Airport" target="_blank" class="text-xs bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 px-2.5 py-1 rounded-full font-bold">🗺️ D3 導航</a>
+    <!-- Day 3 -->
+    <div class="card">
+        <div class="day-header">
+            <span>Day 3: 9/27 (日) 遊船與音樂之都</span>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/Hampton+Inn+Cave+City/Lost+River+Cave+Bowling+Green/Country+Music+Hall+of+Fame/Nashville+International+Airport" target="_blank">導航本日路線</a>
         </div>
-
-        <div class="relative border-l-2 border-day3/30 pl-4 space-y-4 text-xs">
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day3"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">08:00 - 08:30</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🥣 早餐 & 退房 Check-out</div>
-          </div>
-
-          <!-- 導覽 3 -->
-          <div class="relative bg-amber-50 dark:bg-amber-950/40 p-3 rounded-xl border border-amber-200 dark:border-amber-800">
-            <div class="absolute -left-[21px] top-3 w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-            <span class="inline-block bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mb-1">已預訂 2人門票</span>
-            <div class="font-mono text-amber-800 dark:text-amber-300 font-bold">09:15 - 09:30 必須抵達禮品店報到</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🛶 10:00 AM - 10:45 AM: Lost River Cave Boat Tour</div>
-            <p class="text-[11px] text-stone-600 dark:text-stone-400 mt-1">2818 Nashville Rd, Bowling Green, KY. 洞內恆溫 57°F，請備薄外套。</p>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day3"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">10:50 - 12:15</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🚗 開車返回 Nashville 市中心 (約 1 小時 15 分)</div>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day3"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">12:15 - 13:30</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🍽️ Nashville 市中心午餐 (如 Hattie B's 辣炸雞)</div>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day3"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">13:30 - 15:30</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">🏛️ Country Music Hall of Fame and Museum</div>
-            <p class="text-stone-600 dark:text-stone-400 mt-0.5">全球最大音樂博物館，感受鄉村音樂傳奇。</p>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day3"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">15:30 - 17:15</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">⛪ Ryman Auditorium & 🎸 Broadway 酒吧街</div>
-            <p class="text-stone-600 dark:text-stone-400 mt-0.5">參觀「鄉村音樂母堂」並體驗 Honky Tonk 現場演奏。</p>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day3"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">17:15 - 17:45</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">⛽ 機場加油 & 還車 Check-in</div>
-          </div>
-
-          <div class="relative">
-            <div class="absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full bg-day3"></div>
-            <div class="font-mono text-stone-600 dark:text-stone-400 font-bold">19:15 - 21:10</div>
-            <div class="font-bold text-stone-900 dark:text-white text-sm">✈️ Southwest WN1279 飛回 Dallas (DAL)</div>
-          </div>
+        <div class="timeline">
+            <div class="event">
+                <div class="time">08:00 - 08:30</div>
+                <div class="content">🥣 飯店早餐與 Check-out</div>
+            </div>
+            <div class="event">
+                <div class="time">08:30 - 09:15</div>
+                <div class="content">🚗 前往 Bowling Green 禮品店</div>
+            </div>
+            <div class="event">
+                <div class="time">09:15 - 10:00</div>
+                <div class="content">📌 抵達 <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Lost+River+Cave+Bowling+Green" target="_blank">Lost River Cave</a> <span class="highlight">規定提早30-60分報到</span></div>
+            </div>
+            <div class="event">
+                <div class="time">10:00 - 10:45</div>
+                <div class="content">
+                    🛶 Lost River Cave Boat Tour <span class="highlight">已預訂 2人</span>
+                    <div class="desc">🌟 <strong>必看特色：</strong> 肯塔基州唯一的地下遊船，進入終年 14 度 (57°F) 的地下河床乘船探險，需低頭穿過狹窄洞口。</div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="time">10:50 - 12:15</div>
+                <div class="content">🚗 開車返回 Nashville 市中心</div>
+            </div>
+            <div class="event">
+                <div class="time">12:15 - 13:30</div>
+                <div class="content">🍽️ 市中心午餐 (Broadway 區域)</div>
+            </div>
+            <div class="event">
+                <div class="time">13:30 - 15:30</div>
+                <div class="content">
+                    🏛️ 參觀 <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Country+Music+Hall+of+Fame" target="_blank">鄉村音樂名人堂博物館</a>
+                    <div class="desc">🌟 <strong>必看特色：</strong> 全球最大音樂博物館之一！展示美國音樂演進史、巨星殿堂，包含貓王等傳奇歌手的服飾與黃金座駕。</div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="time">15:30 - 16:30</div>
+                <div class="content">
+                    ⛪ 巡禮 <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Ryman+Auditorium" target="_blank">Ryman Auditorium</a>
+                    <div class="desc">🌟 <strong>必看特色：</strong> 譽為「鄉村音樂的母堂」，極具百年歷史的紅磚會堂，擁有無與倫比的木造聲學效果。</div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="time">16:30 - 17:15</div>
+                <div class="content">
+                    🎸 漫步 <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Broadway+Nashville" target="_blank">Broadway 酒吧街</a>
+                    <div class="desc">🌟 <strong>必看特色：</strong> 納什維爾最熱鬧的心臟地帶，整條街充滿 Honky Tonk 現場音樂演奏、霓虹燈與南方熱情。</div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="time">17:15 - 17:45</div>
+                <div class="content">⛽ 開車前往 BNA 機場周邊加油並還車</div>
+            </div>
+            <div class="event">
+                <div class="time">19:15 - 21:10</div>
+                <div class="content">✈️ 搭乘 Southwest WN1279 航班返回 DAL</div>
+            </div>
         </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- 待辦事項 (純列表) -->
-    <section class="bg-white dark:bg-stone-800 rounded-3xl p-5 shadow-lg border border-stone-200 dark:border-stone-700">
-      <h2 class="text-base font-extrabold mb-3 flex items-center gap-2">
-        <span>📋</span> 行前待辦清單
-      </h2>
-      <ul class="space-y-2 text-xs text-stone-700 dark:text-stone-300 list-disc list-inside">
-        <li>下載 Google Maps 離線地圖 (Mammoth Cave & Nashville 區域)</li>
-        <li>準備實體照片 ID 證件（洞穴導覽 Check-in 必備）</li>
-        <li>將所有預約票券 QR Code 截圖存入手機相簿</li>
-        <li>攜帶薄外套/長褲（洞內全年恆溫 54-57°F）</li>
-        <li>穿著防滑堅固的運動鞋/登山鞋（嚴禁穿拖鞋或涼鞋）</li>
-      </ul>
-    </section>
+    <!-- 待辦清單與貼士 -->
+    <div class="card">
+        <h2>📋 行前待辦清單</h2>
+        <ul>
+            <li>下載 Google Maps 離線地圖 (Cave City 與國家公園訊號極差)</li>
+            <li>規劃並確認 Day 1 晚餐地點 (抵達 BNA 後或公路旁)</li>
+            <li>規劃並確認 Day 2 晚餐地點 (Cave City 附近)</li>
+            <li>截圖所有門票 QR Code 存至手機相簿備用</li>
+            <li>準備堅固好走的防滑包鞋（洞穴內嚴禁穿拖鞋或涼鞋）</li>
+        </ul>
+    </div>
 
-    <!-- 實用貼士 -->
-    <section class="bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 rounded-3xl p-5">
-      <h2 class="text-base font-extrabold text-amber-800 dark:text-amber-300 mb-2 flex items-center gap-2">
-        <span>💡</span> 行程實用貼士
-      </h2>
-      <ul class="space-y-2 text-xs text-stone-700 dark:text-stone-300">
-        <li><strong>時區警示：</strong>全程處於美中時間 (CDT, UTC-5)，時間計算請特別注意。</li>
-        <li><strong>導航提醒：</strong>公園內部部分路段手機訊號較弱，切勿完全依賴車載 GPS，建議提前下載離線地圖。</li>
-        <li><strong>洞內禁帶物品：</strong>嚴禁攜帶武器、自拍棒、腳架、嬰兒背架、食物或含糖飲料（僅可攜帶清水）。</li>
-      </ul>
-    </section>
+    <div class="card" style="background-color: #fff3cd; border-color: #ffe69c;">
+        <h2 style="border-bottom-color: #ffe69c; color: #856404;">💡 實用貼士</h2>
+        <ul style="color: #856404;">
+            <li><strong>時區提醒：</strong> 全程皆為美中時間 (CDT)，不需轉換時區。</li>
+            <li><strong>洞穴溫度：</strong> 洞內終年保持 54-57°F (約 12-14°C)，請務必攜帶薄外套。</li>
+            <li><strong>國家公園規定：</strong> 洞穴內禁止攜帶食物飲料 (清水除外)、腳架、自拍桿。</li>
+        </ul>
+    </div>
+</div>
 
-  </div>
+<script>
+    // 設定出發目標時間為 CDT 時區的 2026-09-25 17:20:00
+    // 美中夏令時間 (CDT) = UTC-5
+    const targetDate = new Date("2026-09-25T17:20:00-05:00").getTime();
 
-  <script>
-    // 時區控制：目標時間錨定為美中時間 CDT (UTC-5)
-    // 預設倒數計時點為 2026/09/25 17:20 CDT
-    const TARGET_DATE_STR = "2026-09-25T17:20:00-05:00";
-    const targetDate = new Date(TARGET_DATE_STR).getTime();
+    function updateTimer() {
+        const now = Date.now();
+        const diff = targetDate - now;
 
-    // 行程事件時序表
-    const scheduleEvents = [
-      { time: "2026-09-25T17:20:00-05:00", name: "✈️ Southwest 航班起飛", sub: "DAL -> BNA (WN1249)" },
-      { time: "2026-09-25T19:10:00-05:00", name: "🚗 抵達 BNA 並領取租車", sub: "準備開車前往 Cave City" },
-      { time: "2026-09-25T21:20:00-05:00", name: "🤝 與廷在 Hampton Inn 會合", sub: "Cave City 飯店會合與吃晚餐" },
-      { time: "2026-09-26T10:45:00-05:00", name: "📌 Great Onyx Tour 報到截止", sub: "Mammoth Cave Visitor Center" },
-      { time: "2026-09-26T11:15:00-05:00", name: "🔦 Great Onyx Lantern Tour 開始", sub: "已預訂 3人門票" },
-      { time: "2026-09-26T15:30:00-05:00", name: "📌 Extended Historic Tour 報到", sub: "Shelter A 集合" },
-      { time: "2026-09-26T16:00:00-05:00", name: "🥾 Extended Historic Tour 開始", sub: "已預訂 3人門票" },
-      { time: "2026-09-27T09:15:00-05:00", name: "📌 Lost River Cave Check-in 報到", sub: "最晚提前 30 分鐘抵達禮品店" },
-      { time: "2026-09-27T10:00:00-05:00", name: "🛶 Lost River Cave Boat Tour 開始", sub: "已預訂 2人門票" },
-      { time: "2026-09-27T13:30:00-05:00", name: "🏛️ Country Music Hall of Fame", sub: "Nashville 市中心參觀" },
-      { time: "2026-09-27T19:15:00-05:00", name: "✈️ Southwest 航班返程", sub: "BNA -> DAL (WN1279)" }
-    ];
+        if (diff <= 0) {
+            document.getElementById("timer").innerHTML = "🚀 旅途愉快！";
+            return;
+        }
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const diff = targetDate - now;
-
-      if (diff > 0) {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        document.getElementById('cd-days').innerText = String(days).padStart(2, '0');
-        document.getElementById('cd-hours').innerText = String(hours).padStart(2, '0');
-        document.getElementById('cd-mins').innerText = String(mins).padStart(2, '0');
-        document.getElementById('cd-secs').innerText = String(secs).padStart(2, '0');
-      } else {
-        document.getElementById('countdown-timer').innerHTML = `<div class="col-span-4 font-bold text-emerald-600 dark:text-emerald-400 py-2">🎉 旅程進行中 / 已開啟冒險！</div>`;
-      }
-
-      // 更新「此刻關注」事件
-      let nextEvt = scheduleEvents.find(e => new Date(e.time).getTime() > now);
-      if (!nextEvt) {
-        nextEvt = scheduleEvents[scheduleEvents.length - 1];
-      }
-      document.getElementById('next-event-title').innerText = nextEvt.name;
-      document.getElementById('next-event-sub').innerText = nextEvt.sub;
+        document.getElementById("d").innerText = days.toString().padStart(2, '0');
+        document.getElementById("h").innerText = hours.toString().padStart(2, '0');
+        document.getElementById("m").innerText = minutes.toString().padStart(2, '0');
+        document.getElementById("s").innerText = seconds.toString().padStart(2, '0');
     }
 
-    // 自動切換黑夜模式 (依時間判斷)
-    function applyDarkModeByTime() {
-      const hour = new Date().getHours();
-      if (hour >= 18 || hour < 6) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+</script>
 
-    applyDarkModeByTime();
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
 </body>
 </html>
