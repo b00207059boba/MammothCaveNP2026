@@ -15,6 +15,13 @@
             --day2: #2ecc71;
             --day3: #9b59b6;
             --border: #eeeeee;
+            
+            /* 特殊卡片顏色 (淺色模式) */
+            --dinner-bg: #f4f6f9;
+            --dinner-border: #d1dbe5;
+            --tips-bg: #fff3cd;
+            --tips-border: #ffe69c;
+            --tips-text: #856404;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -25,6 +32,13 @@
                 --text-muted: #aaaaaa;
                 --accent: #ff7b25;
                 --border: #333333;
+                
+                /* 特殊卡片顏色 (深色模式適配) */
+                --dinner-bg: #1e293b;
+                --dinner-border: #334155;
+                --tips-bg: #423500;
+                --tips-border: #715c00;
+                --tips-text: #fde047;
             }
         }
 
@@ -215,8 +229,8 @@
     </div>
     
     <!-- 晚餐口袋名單 -->
-    <div class="card" style="background-color: #f4f6f9; border-color: #d1dbe5;">
-        <h2 style="border-bottom-color: #d1dbe5;">🍽️ Day 1 沿途晚餐口袋名單</h2>
+    <div class="card" style="background-color: var(--dinner-bg); border-color: var(--dinner-border);">
+        <h2 style="border-bottom-color: var(--dinner-border);">🍽️ Day 1 沿途晚餐口袋名單</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0;">※ 以下皆位於往北順路方向，且自帶大型停車場，確保行李安全。</p>
         <ul style="margin-bottom: 0;">
             <li><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Japan+House+Goodlettsville" target="_blank">Japan House (Goodlettsville)</a></strong>：位於 I-65 交流道旁，免費大停車場。日式鐵板燒 (Hibachi) 與照燒雞肉，肉質軟熟，無生食與香菜疑慮。</li>
@@ -343,6 +357,7 @@
     <div class="card">
         <h2>📋 行前待辦清單</h2>
         <ul>
+            <li>上網預訂「鄉村音樂名人堂」一般門票 (建議預訂 13:30 時段)</li>
             <li>下載 Google Maps 離線地圖 (Cave City 與國家公園訊號極差)</li>
             <li>規劃並確認 Day 2 晚餐地點 (Cave City 附近)</li>
             <li>截圖所有門票 QR Code 存至手機相簿備用</li>
@@ -350,9 +365,9 @@
         </ul>
     </div>
 
-    <div class="card" style="background-color: #fff3cd; border-color: #ffe69c;">
-        <h2 style="border-bottom-color: #ffe69c; color: #856404;">💡 實用貼士</h2>
-        <ul style="color: #856404;">
+    <div class="card" style="background-color: var(--tips-bg); border-color: var(--tips-border); color: var(--tips-text);">
+        <h2 style="border-bottom-color: var(--tips-border); color: var(--tips-text);">💡 實用貼士</h2>
+        <ul style="color: var(--tips-text);">
             <li><strong>時區提醒：</strong> 全程皆為美中時間 (CDT)，不需轉換時區。</li>
             <li><strong>洞穴溫度：</strong> 洞內終年保持 54-57°F (約 12-14°C)，請務必攜帶薄外套。</li>
             <li><strong>國家公園規定：</strong> 洞穴內禁止攜帶食物飲料 (清水除外)、腳架、自拍桿。</li>
